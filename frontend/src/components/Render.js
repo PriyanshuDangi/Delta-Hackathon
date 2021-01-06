@@ -2,18 +2,20 @@ import React, {useState} from 'react';
 import {Canvas} from 'react-three-fiber';
 
 import Box from '../threeComponents/Box';
+import Ground from '../threeComponents/Ground';
 
 function Render() {
-    const [position, usePosition] = useState([4, 4, 6]);
+    const [position, usePosition] = useState([10, 5, 0]);
 
-    const moveCamera = () => {};
     return (
         <Canvas
             camera={{
-                position: position,
-            }}>
-            <ambientLight />
-            <pointLight position={[1, 1, 1]} />
+                position: position
+            }}
+            color={"black"}>
+            <ambientLight/>
+            <pointLight position={[1, 1, 1]}/>
+            <Ground/>
             <Box position={[0, 0, 0]} />
             {/* <orbitControls args={[camera, domElement]} /> */}
         </Canvas>
