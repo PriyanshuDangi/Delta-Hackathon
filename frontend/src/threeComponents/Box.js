@@ -1,5 +1,7 @@
-import { useRef, useState } from 'react';
-import { useFrame } from 'react-three-fiber';
+import {useRef, useState} from 'react';
+import {useFrame, extend, useThree} from 'react-three-fiber';
+import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
+extend({OrbitControls});
 
 function Box(props) {
     // This reference will give us direct access to the mesh
@@ -13,7 +15,11 @@ function Box(props) {
     useFrame(() => {
         mesh.current.rotation.x = mesh.current.rotation.y += 0.01;
     });
-
+    const {
+        camera,
+        gl: {domElement},
+    } = useThree();
+    
     return (
         <mesh
             {...props}
@@ -21,13 +27,12 @@ function Box(props) {
             scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
             onClick={(event) => setActive(!active)}
             onPointerOver={(event) => setHover(true)}
-            onPointerOut={(event) => setHover(false)}
-        >
+            onPointerOut={(event) => setHover(false)}>
             <boxBufferGeometry args={[2, 2, 2]} />
-            <meshStandardMaterial color={hovered ? "hotpink" : "orange"} />
+            <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
+            <orbitControls args={[camera, domElement]} />
         </mesh>
     );
 }
-
 
 export default Box;
