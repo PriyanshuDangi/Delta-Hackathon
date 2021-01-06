@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 import Render from './components/Render';
 
@@ -7,7 +7,7 @@ import './App.css';
 function App() {
     return (
         <div className="App">
-            <Render/>
+            <Render />
         </div>
     );
 }
