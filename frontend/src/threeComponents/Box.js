@@ -19,7 +19,7 @@ function Box(props) {
         camera,
         gl: {domElement},
     } = useThree();
-    
+
     return (
         <mesh
             {...props}
