@@ -7,6 +7,8 @@ import Sky from '../threeComponents/Sky';
 
 function Render() {
     const [position, usePosition] = useState([10, 5, 0]);
+    const [boxes, useBoxes] = useState([]);
+
     return (
         <Canvas
             camera={{
@@ -14,10 +16,15 @@ function Render() {
             }}
             color={'black'}>
             <ambientLight />
-            <pointLight position={[1, 1, 1]} />
+            <pointLight position={[100, 100, 100]} />
             <Sky />
             <Ground />
             <Box position={[0, 0, 0]} />
+            {
+                boxes.map(box => (
+                    <Box position={box} />
+                ))
+            }
             {/* <orbitControls args={[camera, domElement]} /> */}
         </Canvas>
     );
