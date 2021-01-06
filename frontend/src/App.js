@@ -1,13 +1,13 @@
-import React from 'react';
-import {Counter} from './features/counter/Counter';
+import React, { useState } from 'react';
+
+import Render from './components/Render';
+
 import './App.css';
 
 function App() {
     return (
         <div className="App">
-            <header className="App-header">
-                <Counter />
-            </header>
+            <Render/>
         </div>
     );
 }
