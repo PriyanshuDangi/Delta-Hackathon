@@ -1,9 +1,11 @@
-const p = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), -1 - Math.floor(Math.random() * 10)];
+// const p = [Math.floor(Math.random() * 10), Math.floor(Math.random() * 10), -1 - Math.floor(Math.random() * 10)];
 
-console.log(p);
+// [310, 20, 217],
+// console.log(p);
 
 const initialState = {
-    position: p,
+    // position: p,
+    position: [120, 12, 60],
     boxes: {},
 };
 
