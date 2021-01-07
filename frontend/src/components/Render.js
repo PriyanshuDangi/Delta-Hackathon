@@ -10,6 +10,7 @@ import Box from '../threeComponents/Box';
 import Ground from '../threeComponents/Ground';
 import Sky from '../threeComponents/Sky';
 import io from 'socket.io-client';
+import City from '../threeComponents/City';
 
 let socket;
 function Render(props) {
@@ -27,6 +28,7 @@ function Render(props) {
             console.log(data);
             console.log(socket.id);
             dispatch({type: 'update-boxes-position', boxes: data});
+            console.log(boxes);
         });
         return () => {
             socket.disconnect();
@@ -38,7 +40,7 @@ function Render(props) {
             return key !== socket.id;
         });
         boxElem = boxArray.map(function (val, index) {
-            return <Box position={boxes[val].position} />;
+            return <Box position={[60 - boxes[val].position[0], 12, 0]} />;
         });
         //   console.log(boxArray)
         // console.log(boxes)
@@ -48,24 +50,32 @@ function Render(props) {
             name: 'priyanshu',
             position,
         });
+        // console.log(City);
     };
     useEffect(() => {
         console.log(boxes);
     }, [boxes]);
-
+    // console.log(position)
+    // camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
+				// camera.position.set( 1000, 50, 1500 );
     return (
         <Canvas
             camera={{
                 position: position,
+                fov: 60,
+                // far: 100
+                // position: [0, 0,-100]
             }}>
             <Provider store={store}>
                 <ambientLight />
                 <pointLight position={[100, 100, 100]} />
-                <FirstPersonControls movementSpeed={2} moveEmit={moveEmit} />
+                <FirstPersonControls movementSpeed={0.2} moveEmit={moveEmit} />
                 <Sky />
-                <Ground />
-                <Box position={[0, 0, 0]} />
+                {/* <Ground /> */}
+                {/* <Box position={[0, 0, 0]} /> */}
+                <City />
                 {boxElem}
+                <Box position={[-60, 11, 0]} />
                 {/* {boxes.map((box) => (
                     <Box position={box} />
                 ))} */}

@@ -4,10 +4,12 @@ import {useFrame, extend, useThree} from 'react-three-fiber';
 // extend({OrbitControls});
 
 import {OrbitControls} from '@react-three/drei';
+import { useSelector } from 'react-redux';
 
 function Box(props) {
     // This reference will give us direct access to the mesh
     const mesh = useRef();
+    const position = useSelector((state) => state.position);
 
     // Set up state for the hovered and active state
     const [hovered, setHover] = useState(false);
@@ -22,8 +24,11 @@ function Box(props) {
     return (
         <mesh
             {...props}
+            // position={position}
+            // position={[-60, 11, 0]}
             ref={mesh}
-            scale={active ? [1.5, 1.5, 1.5] : [1, 1, 1]}
+            rotation={[0, 0, 0]}
+            // scale={active ? [15, 15, 15] : [1, 1, 1]}
             onClick={(event) => setActive(!active)}
             onPointerOver={(event) => setHover(true)}
             onPointerOut={(event) => setHover(false)}>
