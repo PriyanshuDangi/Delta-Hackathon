@@ -1,7 +1,7 @@
 const app = require('express')();
 const server = require('http').createServer(app);
 const io = require('socket.io')(server);
-const port = 3000;
+const port = 2000;
 
 // dynamic map contains all current user<socket.id><{location,username}>
 let currentPlayers = new Map();
