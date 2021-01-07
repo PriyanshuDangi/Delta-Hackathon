@@ -3,7 +3,7 @@ import {useFrame, extend, useThree} from 'react-three-fiber';
 // import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls';
 // extend({OrbitControls});
 
-import { OrbitControls } from '@react-three/drei';
+import {OrbitControls} from '@react-three/drei';
 
 function Box(props) {
     // This reference will give us direct access to the mesh
@@ -16,9 +16,9 @@ function Box(props) {
     // Rotate mesh every frame, this is outside of React without overhead
     // useFrame(() => {
     //     // mesh.current.rotation.x = mesh.current.rotation.y += 0.01;
-    //   
+    //
     // });
-    
+
     return (
         <mesh
             {...props}
@@ -28,7 +28,7 @@ function Box(props) {
             onPointerOver={(event) => setHover(true)}
             onPointerOut={(event) => setHover(false)}>
             <boxBufferGeometry args={[2, 2, 2]} />
-            <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'}/>
+            <meshStandardMaterial color={hovered ? 'hotpink' : 'orange'} />
         </mesh>
     );
 }

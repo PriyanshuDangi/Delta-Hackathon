@@ -1,7 +1,7 @@
-import * as THREE from "three";
-import React, { useRef, useMemo } from "react";
+import * as THREE from 'three';
+import React, {useRef, useMemo} from 'react';
 
-import groundImg from "../assets/images/grasslight-big.jpg";
+import groundImg from '../assets/images/grasslight-big.jpg';
 
 // extend({FirstPersonControls});
 
@@ -34,12 +34,8 @@ function Terrain() {
             position={[0, GROUND_HEIGHT, 0]}
             rotation={[-Math.PI / 2, 0, 0]}
             ref={terrain}
-            receiveShadow={true}
-        >
-            <planeBufferGeometry
-                attach="geometry"
-                args={[5000, 5000, 128, 128]}
-            />
+            receiveShadow={true}>
+            <planeBufferGeometry attach="geometry" args={[5000, 5000, 128, 128]} />
             {/* <meshStandardMaterial
                 attach="material"
                 color="green"

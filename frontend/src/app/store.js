@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import {createStore} from 'redux';
 import appReducer from './reducers';
 
 // export default configureStore({

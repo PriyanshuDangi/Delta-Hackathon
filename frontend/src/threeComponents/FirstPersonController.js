@@ -1,21 +1,20 @@
-import { useRef, useState, useEffect } from "react";
-import { useFrame, useThree, extend } from "react-three-fiber";
-import { PointerLockControls } from "@react-three/drei";
-import { useSelector, useDispatch } from "react-redux";
-import { Vector3 } from "three";
+import {useRef, useState, useEffect} from 'react';
+import {useFrame, useThree, extend} from 'react-three-fiber';
+import {PointerLockControls} from '@react-three/drei';
+import {useSelector, useDispatch} from 'react-redux';
+import {Vector3} from 'three';
 
 // A Ground plane that moves relative to the player. The player stays at 0,0
-function FirstPersonController({ movementSpeed }) {
-
+function FirstPersonController({movementSpeed, moveEmit}) {
     const dispatch = useDispatch();
     const controls = useRef();
 
-    const position = useSelector(state => state.position);
+    const position = useSelector((state) => state.position);
     const [direction, setDirection] = useState({
         left: false,
         right: false,
         up: false,
-        down: false
+        down: false,
     });
 
     useFrame(() => {
@@ -23,58 +22,61 @@ function FirstPersonController({ movementSpeed }) {
         const nP = [0, 0, 0];
 
         const d = new Vector3(0, 0, 0);
-        controls.current.getDirection(d)
+        controls.current.getDirection(d);
 
-        const norm = Math.sqrt(d.x*d.x + d.z*d.z); // TODO: Use fast inverse square root
+        const norm = Math.sqrt(d.x * d.x + d.z * d.z); // TODO: Use fast inverse square root
         const nD = [d.z / norm, 0, d.x / norm];
         const pD = [-nD[2], 0, nD[0]];
-        
+
         for (let i = 0; i < 3; i++) {
-            dP[i] = (nD[i] * (direction.right - direction.left) + pD[i] * (direction.up - direction.down)); 
+            dP[i] = nD[i] * (direction.right - direction.left) + pD[i] * (direction.up - direction.down);
         }
 
-        const n2 = Math.sqrt(dP[0]*dP[0] + dP[2]*dP[2]);
+        const n2 = Math.sqrt(dP[0] * dP[0] + dP[2] * dP[2]);
         for (let i = 0; i < 3; i++) {
             nP[i] = position[i] + dP[i] * movementSpeed;
         }
-
-
-        dispatch({ type: 'update-user-position', position: nP });
+        // moveEmit(nP);
+        dispatch({type: 'update-user-position', position: nP});
     });
 
-    const { camera } = useThree();
+    const {camera} = useThree();
 
     useEffect(() => {
         camera.position.x = -position[0];
         camera.position.z = position[2];
-    }, [camera.position, position])
-    
+    }, [camera.position, position]);
+
     const keyDownHandler = (event) => {
         switch (event.key) {
             case 'ArrowUp':
             case 'w':
+                moveEmit();
                 setDirection({...direction, up: true});
                 break;
 
             case 'ArrowDown':
             case 's':
+                moveEmit();
                 setDirection({...direction, down: true});
                 break;
 
             case 'ArrowLeft':
             case 'a':
+                moveEmit();
                 setDirection({...direction, left: true});
                 break;
 
             case 'ArrowRight':
             case 'd':
+                moveEmit();
                 setDirection({...direction, right: true});
                 break;
 
             default:
                 break;
         }
-    }
+    };
 
     const keyUpHandler = (event) => {
         switch (event.key) {
@@ -101,16 +103,16 @@ function FirstPersonController({ movementSpeed }) {
             default:
                 break;
         }
-    }
+    };
 
     useEffect(() => {
         document.addEventListener('keydown', keyDownHandler);
-        document.addEventListener('keyup', keyUpHandler)
+        document.addEventListener('keyup', keyUpHandler);
 
         return () => {
             document.removeEventListener('keydown', keyDownHandler);
-            document.removeEventListener('keyup', keyUpHandler)
-        }
+            document.removeEventListener('keyup', keyUpHandler);
+        };
     });
 
     return <PointerLockControls ref={controls} />;

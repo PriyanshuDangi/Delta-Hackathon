@@ -5,27 +5,39 @@ const port = 2000;
 
 // dynamic map contains all current user<socket.id><{location,username}>
 let currentPlayers = new Map();
+let players = {};
 
 io.on('connection', socket => { 
     console.log(`new client connected! ${socket.id}`);
 
     // new user event
     socket.on('new-user',(data)=>{
-        currentPlayers.set(socket.id,data);
+        // currentPlayers.set(socket.id,data);
+        
+        // players.push(data);
+        players[socket.id] = data;
+        console.log(players);
         //emit update event to return all currentPlayers
-        socket.broadcast.emit("update-players",currentPlayers)
+        socket.broadcast.emit("update-players",players)
     });
 
     // event when a user move
     socket.on("move",(data)=>{
-        currentPlayers.set(socket.id,data)
+        // currentPlayers.set(socket.id,data)
+        console.log("move");
+        // console.log(data);
+        players[socket.id] = data;
+        console.log(players);
         //emit update event to return all currentPlayers
-        socket.broadcast.emit("update-players",currentPlayers)
+        socket.broadcast.emit("update-players",players)
     })
 
     socket.on('disconnect',()=>{
        //delete user on disconnect
-       currentPlayers.delete(socket.id)
+    //    currentPlayers.delete(socket.id)
+    delete players[socket.id]
+       console.log('disconnected')
+       console.log(players)
        //emit update event to return all currentPlayers
        socket.broadcast.emit("update-players",currentPlayers)
       })
