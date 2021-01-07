@@ -11,6 +11,8 @@ import Ground from '../threeComponents/Ground';
 import Sky from '../threeComponents/Sky';
 import io from 'socket.io-client';
 
+import peer from '../webrtc/webrtcInit';
+
 let socket;
 function Render(props) {
     const position = useSelector((state) => state.position);
@@ -19,10 +21,15 @@ function Render(props) {
 
     useEffect(() => {
         socket = io();
-        socket.emit('new-user', {
-            name: 'priyanshu',
-            position,
-        });
+        peer.on('open', id => {
+            console.log(id)
+            socket.emit('new-user', {
+                name: 'priyanshu',
+                position,
+                peerId:id
+            });
+        })
+
         socket.on('update-players', (data) => {
             console.log(data);
             console.log(socket.id);
