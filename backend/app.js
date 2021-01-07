@@ -13,21 +13,21 @@ io.on('connection', socket => {
     socket.on('new-user',(data)=>{
         currentPlayers.set(socket.id,data);
         //emit update event to return all currentPlayers
-        io.emit("update-players",currentPlayers)
+        socket.broadcast.emit("update-players",currentPlayers)
     });
 
     // event when a user move
     socket.on("move",(data)=>{
         currentPlayers.set(socket.id,data)
         //emit update event to return all currentPlayers
-        io.emit("update-players",currentPlayers)
+        socket.broadcast.emit("update-players",currentPlayers)
     })
 
     socket.on('disconnect',()=>{
        //delete user on disconnect
        currentPlayers.delete(socket.id)
        //emit update event to return all currentPlayers
-       io.emit("update-players",currentPlayers)
+       socket.broadcast.emit("update-players",currentPlayers)
       })
  });
 
