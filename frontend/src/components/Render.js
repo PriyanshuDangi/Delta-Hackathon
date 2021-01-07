@@ -81,7 +81,7 @@ function Render(props) {
                 {/* <Ground /> */}
                 {/* <Box position={[0, 0, 0]} /> */}
                 <City />
-                <Ground />
+                {/* <Ground /> */}
                 {boxElem}
                 <Box position={[-60, 11, 0]} />
                 {/* {boxes.map((box) => (
