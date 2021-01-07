@@ -18,7 +18,7 @@ io.on('connection', socket => {
         players[socket.id] = data;
         console.log(players);
         //emit update event to return all currentPlayers
-        socket.broadcast.emit("update-players",players)
+        io.emit("update-players",players)
     });
 
     // event when a user move
@@ -29,7 +29,7 @@ io.on('connection', socket => {
         players[socket.id] = data;
         console.log(players);
         //emit update event to return all currentPlayers
-        socket.broadcast.emit("update-players",players)
+        io.emit("update-players",players)
     })
 
     socket.on('disconnect',()=>{
@@ -39,7 +39,7 @@ io.on('connection', socket => {
        console.log('disconnected')
        console.log(players)
        //emit update event to return all currentPlayers
-       socket.broadcast.emit("update-players",currentPlayers)
+       io.emit("update-players",currentPlayers)
       })
  });
 

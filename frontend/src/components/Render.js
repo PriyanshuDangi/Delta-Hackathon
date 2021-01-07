@@ -71,7 +71,6 @@ function Render(props) {
                 <FirstPersonControls movementSpeed={2} moveEmit={moveEmit} />
                 <Sky />
                 <Ground />
-                <Box position={[0, 0, 0]} />
                 {boxElem}
                 {/* {boxes.map((box) => (
                     <Box position={box} />
