@@ -2,7 +2,9 @@
 
 ### Introduction
 Inspired from MOODI site, we thought of making the same for NIT-T. But in 30 hrs it was difficult to make that many models we implemented it for a city. You can also check other person location in the city.
+
 We also thought of proximity chatting but were not able to do it because of time.
+
 We used THREE.js and react-three-fiber for the frontend and rendering. Nodejs for the backend. We used sockets for user positions and will use will WEBrtc for voice chat.
 
 ### 📸 Screenshots
