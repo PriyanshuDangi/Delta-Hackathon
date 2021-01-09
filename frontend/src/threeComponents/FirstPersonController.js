@@ -38,6 +38,8 @@ function FirstPersonController({movementSpeed, moveEmit}) {
         }
         // moveEmit(nP);
         dispatch({type: 'update-user-position', position: nP});
+
+        moveEmit();
     });
 
     const {camera} = useThree();
@@ -51,25 +53,21 @@ function FirstPersonController({movementSpeed, moveEmit}) {
         switch (event.key) {
             case 'ArrowUp':
             case 'w':
-                moveEmit();
                 setDirection({...direction, up: true});
                 break;
 
             case 'ArrowDown':
             case 's':
-                moveEmit();
                 setDirection({...direction, down: true});
                 break;
 
             case 'ArrowLeft':
             case 'a':
-                moveEmit();
                 setDirection({...direction, left: true});
                 break;
 
             case 'ArrowRight':
             case 'd':
-                moveEmit();
                 setDirection({...direction, right: true});
                 break;
 

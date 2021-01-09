@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 // import { FirstPersonControls } from 'three/examples/jsm/controls/FirstPersonControls';
 import {Canvas, useThree} from 'react-three-fiber';
 import {useSelector, Provider, useDispatch} from 'react-redux';
@@ -14,54 +14,58 @@ import City from '../threeComponents/City';
 
 import peer from '../webrtc/webrtcInit';
 
-let socket;
 function Render(props) {
     const position = useSelector((state) => state.position);
     const boxes = useSelector((state) => state.boxes);
     const dispatch = useDispatch();
 
+    let socket = useRef();
+
     useEffect(() => {
-        socket = io();
+        socket.current = io();
         peer.on('open', id => {
             console.log(id)
-            socket.emit('new-user', {
+            socket.current.emit('new-user', {
                 name: 'priyanshu',
                 position,
                 peerId:id
             });
         })
 
-        socket.on('update-players', (data) => {
+        socket.current.on('update-players', (data) => {
             console.log(data);
-            console.log(socket.id);
+            console.log(socket.current.id);
             dispatch({type: 'update-boxes-position', boxes: data});
             console.log(boxes);
         });
         return () => {
-            socket.disconnect();
+            socket.current.disconnect();
         };
-    }, []);
-    let boxElem = null;
-    if (boxes && socket) {
-        let boxArray = Object.keys(boxes).filter((key) => {
-            return key !== socket.id;
-        });
-        boxElem = boxArray.map(function (val, index) {
-            return <Box position={[60 - boxes[val].position[0], 12, 0]} />;
-        });
-        //   console.log(boxArray)
-        // console.log(boxes)
-    }
+    }, [socket]);
+
+    // useEffect(() => {
+    //     if (boxes && socket.current) {
+    //         let boxArray = Object.keys(boxes).filter((key) => {
+    //             return key !== socket.current.id;
+    //         });
+    //         boxElem = boxArray.map(function (val, index) {
+    //             // return <Box position={[60 - boxes[val].position[0], 12, 0]} />;
+    //             return <Box position={val.position} />
+    //         });
+    //         //   console.log(boxArray)
+    //         // console.log(boxes)
+    //     }
+    // })
     const moveEmit = () => {
-        socket.emit('move', {
+        socket.current.emit('move', {
             name: 'priyanshu',
             position,
         });
         // console.log(City);
     };
-    useEffect(() => {
-        console.log(boxes);
-    }, [boxes]);
+    // useEffect(() => {
+    //     console.log(boxes);
+    // }, [boxes]);
     // console.log(position)
     // camera = new THREE.PerspectiveCamera( 30, window.innerWidth / window.innerHeight, 1, 10000 );
 				// camera.position.set( 1000, 50, 1500 );
@@ -76,14 +80,23 @@ function Render(props) {
             <Provider store={store}>
                 <ambientLight />
                 <pointLight position={[100, 100, 100]} />
-                <FirstPersonControls movementSpeed={0.2} moveEmit={moveEmit} />
+                <FirstPersonControls movementSpeed={10} moveEmit={moveEmit} />
                 <Sky />
                 {/* <Ground /> */}
                 {/* <Box position={[0, 0, 0]} /> */}
-                <City />
-                {/* <Ground /> */}
-                {boxElem}
-                <Box position={[-60, 11, 0]} />
+                {/* <City /> */}
+                <Ground />
+                {
+                    Object.keys(boxes).map((key) => {
+                        // return <Box position={[60 - boxes[val].position[0], 12, 0]} />;
+                        // return <Box position={boxes[key].position} />;
+                        if (key !== socket.current.id)
+                            return <Box position={boxes[key].position} />;
+                        else 
+                            return null;
+                    })
+                }
+                {/* <Box position={[258, 12, -126]} /> */}
                 {/* {boxes.map((box) => (
                     <Box position={box} />
                 ))} */}
